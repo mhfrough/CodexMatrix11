@@ -1,0 +1,102 @@
+<div class="main-content-container container-fluid px-4">
+  <!-- Page Header -->
+  <div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+      <span class="text-uppercase page-subtitle">Structure</span>
+      <h3 class="page-title">Designation</h3>
+    </div>
+  </div>
+  <!-- End Page Header -->
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card card-small mb-4">
+        <div class="card-header border-bottom">
+          <h6 class="m-0">{{app.action}} New Designation</h6>
+        </div>
+        <div class="card-body">
+          <form role="form" [formGroup]="rForm" (ngSubmit)="onSubmit(rForm.value)">
+            <fieldset>
+              <div class="form-group">
+                <input class="form-control" placeholder="Designation Name" type="text" [(ngModel)]="desigName" value="{{desigName}}"
+                  formControlName="desigName">
+                <small class="alertMessage" *ngIf="!rForm.controls['desigName'].valid && rForm.controls['desigName'].touched">
+                  Designation name field is required
+                </small>
+              </div>
+
+              <button type="submit" id="submit" class="mb-2 btn btn-white mr-1" [disabled]="!rForm.valid">{{ app.button
+                }}</button>
+              <button type="reset" class="mb-2 btn btn-white mr-1" (click)="app.reset()">Reset</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <span class="file-manager__group-title text-uppercase text-light">Designation List</span>
+        </div>
+      </div>
+
+
+      <div class="card card-small mb-4">
+        <div class="card-header border-bottom">
+          <h6 class="m-0">Current Designation</h6>
+        </div>
+        <br />
+        <div class="col-lg-12 offset-lg-0 mb-4">
+          <input type="text" class="form-control form-control-lg srh-bx" name="searchString" placeholder="Type to search..."
+            [(ngModel)]="searchString">
+        </div>
+        <div class="card-body p-0 pb-3">
+
+          <div class="table-responsive">
+            <div class="text-center">
+              <app-loading *ngIf="isLoading"></app-loading>
+            </div>
+            <span *ngIf="!isLoading">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Designation Name</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <tr *ngFor="let item of _desig.desigList | filter : 'name' : searchString; index as i">
+                    <td>{{i+1}}</td>
+                    <td>{{item.name}}</td>
+                    <td>
+                      <div class="btn-group btn-group-sm d-flex justify-content-end" role="group" aria-label="Table row actions">
+                        <button type="button" class="btn btn-white active-light" (click)="onUpdate(item.id, item.name)">
+                          <a class="upd-btn" href="/structure/designation#top">
+                            <i class="material-icons">create</i> Update
+                          </a>
+                        </button>
+                        <button type="button" class="btn btn-danger" (click)="onDelete(item.id)">
+                          <i class="material-icons">delete</i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </span>
+          </div>
+
+          <div class="text-center">
+            <span class="text-uppercase page-subtitle mb-4" *ngIf="!_desig.desigList?.length || !_desig.desigList === 0">
+              List is empty!
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
