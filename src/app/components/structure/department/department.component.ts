@@ -3,7 +3,6 @@ import { AppComponent } from 'src/app/app.component';
 import { DeptReq, DeptPut, DeptDel } from 'src/app/interfaces/dept';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DeptService } from 'src/app/services/dept/dept.service';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-department',
@@ -11,7 +10,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./department.component.css']
 })
 export class DepartmentComponent implements OnInit {
-
+  public searchString: string;
   deptReq: DeptReq;
   deptPut: DeptPut;
   deptDel: DeptDel;
@@ -23,11 +22,8 @@ export class DepartmentComponent implements OnInit {
   name: String = '';
   isUpdate: boolean = false;
 
-  list: any[] = this.dept.deptList;
-  
-
-  constructor(private dept: DeptService, private app: AppComponent,
-    private fb: FormBuilder) {
+  constructor(public dept: DeptService, public app: AppComponent,
+    public fb: FormBuilder) {
     this.rForm = fb.group({
       'name': [null, Validators.compose([
         Validators.required,
@@ -38,22 +34,9 @@ export class DepartmentComponent implements OnInit {
 
   }
 
-  dtOptions: DataTables.Settings = {};
-  dtTrigger = new Subject();
-
-
   ngOnInit() {
     this.getAllDept();
-    // this.app.filterRange(this.dept.deptList.length.toString());
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 2
-    };
-  }
-
-  ngOnDestroy(): void {
-    // Do not forget to unsubscribe the event
-    this.dtTrigger.unsubscribe();
+    this.app.reset();
   }
 
   // Get All Departments
@@ -129,8 +112,7 @@ export class DepartmentComponent implements OnInit {
       });
     }
     this.rForm.reset();
-    this.app.button = 'submit';
-    this.app.action = 'Add';
+    this.app.reset();
 
   }
 
@@ -162,6 +144,7 @@ export class DepartmentComponent implements OnInit {
     });
 
     this.rForm.reset();
+    this.app.reset();
   }
 
 

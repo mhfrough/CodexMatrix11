@@ -36,8 +36,8 @@ export class RegisterComponent implements OnInit {
     return this.rForm.get('confirmPassword');
   }
 
-  constructor(private _nav: NavigationService, private auth: AuthService,
-    private router: Router, private fb: FormBuilder, private app: AppComponent) {
+  constructor(public _nav: NavigationService, public auth: AuthService,
+    public router: Router, public fb: FormBuilder, public app: AppComponent) {
     this.rForm = fb.group({
       'name': [null, Validators.compose([
         Validators.required,

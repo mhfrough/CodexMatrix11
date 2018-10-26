@@ -14,6 +14,7 @@ export class SkillsComponent implements OnInit {
 
   skilReq: SkilReq;
   skilDel: SkilDel;
+  public searchString: string;
 
   rForm: FormGroup;
   alerts: any[] = [];
@@ -21,8 +22,8 @@ export class SkillsComponent implements OnInit {
   isLoading: boolean = false;
   temp: any;
 
-  constructor(private dept: DeptService, private app: AppComponent,
-    private skil: SkilService, private fb: FormBuilder) {
+  constructor(public dept: DeptService, public app: AppComponent,
+    public skil: SkilService, public fb: FormBuilder) {
     this.rForm = fb.group({
       'skillName': [null, Validators.compose([
         Validators.required,
@@ -35,10 +36,10 @@ export class SkillsComponent implements OnInit {
 
   ngOnInit() {
     this.dept.getDept(localStorage.getItem('companyID'));
+    this.app.reset();
   }
 
   onChange(data) {
-    this.temp = data;
     this.skil.getSkill(data);
   }
 
@@ -76,6 +77,9 @@ export class SkillsComponent implements OnInit {
 
     }
 
+    this.rForm.reset();
+    this.app.reset();
+
   }
 
   
@@ -102,6 +106,9 @@ export class SkillsComponent implements OnInit {
       this.skil.getSkill(this.temp);   
 
     });
+
+    this.rForm.reset();
+    this.app.reset();
 
   }
 

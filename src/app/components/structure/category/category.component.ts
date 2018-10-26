@@ -23,10 +23,11 @@ export class CategoryComponent implements OnInit {
   catName: String = '';
   button: String = 'Submit';
   isUpdate: boolean = false;
-  temp:  any;
+  temp: any;
+  public searchString: string;
 
-  constructor(private cat: CatService, private app: AppComponent,
-    private dept: DeptService, private fb: FormBuilder) {
+  constructor(public cat: CatService, public app: AppComponent,
+    public dept: DeptService, public fb: FormBuilder) {
     this.rForm = fb.group({
       'catName': [null, Validators.compose([
         Validators.required,
@@ -40,6 +41,7 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit() {
     this.dept.getDept(localStorage.getItem('companyID'));
+    this.app.reset();
   }
 
   onChange(data) {
@@ -107,8 +109,7 @@ export class CategoryComponent implements OnInit {
     }
 
     this.rForm.reset();
-    this.app.button = 'submit';
-    this.app.action = 'Add';
+    this.app.reset();
 
   }
 
@@ -138,9 +139,10 @@ export class CategoryComponent implements OnInit {
       });
 
       console.log(this.temp + "   1");
-      this.cat.getCat(this.temp);     
+      this.cat.getCat(this.temp);
     });
-
+    this.rForm.reset();
+    this.app.reset();
   }
 
 }

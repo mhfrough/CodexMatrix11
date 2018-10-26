@@ -10,8 +10,8 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private nav: NavigationService, private _auth: AuthService,
-    private app: AppComponent) { }
+  constructor(public nav: NavigationService, public _auth: AuthService,
+    public app: AppComponent) { }
 
   ngOnInit() {
   }

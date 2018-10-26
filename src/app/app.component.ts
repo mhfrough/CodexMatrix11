@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { NavbarComponent } from './components/core/navbar/navbar.component';
 import { NavigationService } from './services/core/navigation/navigation.service';
 
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,20 +16,20 @@ export class AppComponent {
   title = 'codexmatrix';
   company: String = "";
 
-  action: String = 'Add';
+  action: String = 'Create';
   button: String = 'Submit';
 
   alerts: any[] = [];
   dismissible = true;
 
   // start: number = 0;
-  // end: number = 10;
+  end: number = 10;
   // temp: number = 0;
 
   // pre: Boolean = true;
   // nxt: Boolean = false;
 
-  // value: number = 0;
+  value: number = 0;
 
 
   // prevData(data: number) {
@@ -58,34 +60,26 @@ export class AppComponent {
   //   }
   // }
 
-  // filterRange(data: string) {
-  //   this.value = parseInt(data, 10);
-  //   this.start = 0;
-  //   this.end = this.value;
-  //   this.temp = this.end;
-  // }
+  filterRange(data: string) {
+    this.value = parseInt(data, 10);
+    // this.start = 0;
+    this.end = this.value;
+    // this.temp = this.end;
+  }
 
   constructor(private router: Router, private nav: NavigationService) {
 
   }
 
   ngOnInit() {
-
-    if (localStorage.getItem('loginStatus') != "true") {
-      // Redirect to Login Page
-      this.router.navigate(['/authentication/login']);
-    }
-
     this.company = localStorage.getItem('companyName');
 
-    // this.end = 10;
+    this.end = 10;
     // this.temp = this.end;
-
-
   }
 
   reset() {
-    this.action = 'Add';
+    this.action = 'Create';
     this.button = 'submit';
   }
 

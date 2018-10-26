@@ -1,0 +1,100 @@
+<div class="main-content-container container-fluid px-4">
+  <!-- Page Header -->
+  <div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+      <span class="text-uppercase page-subtitle">Management</span>
+      <h3 class="page-title">Project</h3>
+    </div>
+  </div>
+  <!-- End Page Header -->
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card card-small mb-4">
+        <div class="card-header border-bottom">
+          <h6 class="m-0">{{app.action}} New Project</h6>
+        </div>
+        <div class="card-body">
+          <form role="form" [formGroup]="rForm" (ngSubmit)="onSubmit(rForm.value)">
+            <fieldset>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <input class="form-control" placeholder="Project Name" type="name" formControlName="projName">
+                    <small class="alertMessage" *ngIf="!rForm.controls['projName'].valid && rForm.controls['projName'].touched">
+                      Project name field is required
+                    </small>
+
+                    <small class="alertMessage" *ngIf="!rForm.controls['deptId'].valid && rForm.controls['deptId'].touched">
+                      Select department
+                    </small>
+
+                    <small class="alertMessage" *ngIf="!rForm.controls['catId'].valid && rForm.controls['catId'].touched">
+                      Select category
+                    </small>
+                  </div>
+                </div>
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <label class="input-group-text" for="customSelect01">Department</label>
+                      </div>
+                      <select class="form-control" formControlName="deptId" (change)="onChange($event.target.value)">
+                        <option></option>
+                        <option *ngFor="let item of dept.deptList" value="{{item.id}}">
+                          {{item.name}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <label class="input-group-text" for="customSelect01">Category</label>
+                      </div>
+                      <select class="form-control" formControlName="catId">
+                        <option></option>
+                        <option *ngFor="let item of cat.catList" value="{{item.id}}">
+                          {{item.name}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <textarea class="form-control" rows="3" formControlName="projDes"></textarea>
+
+                    <small class="alertMessage" *ngIf="!rForm.controls['projDes'].valid && rForm.controls['projDes'].touched">
+                      Project description
+                    </small>
+                  </div>
+                </div>
+
+              </div>
+
+              <button type="submit" id="submit" class="mb-2 btn btn-white mr-1" [disabled]="!rForm.valid">{{
+                app.button
+                }}</button>
+              <button type="reset" class="mb-2 btn btn-white mr-1" (click)="app.reset()">Reset</button>
+              <div class="pull-right">
+                <button class="mb-2 btn btn-primary mr-1" type="button" routerLink="/management/assign-employee">Assing
+                  Employee</button>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

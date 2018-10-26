@@ -1,0 +1,90 @@
+<div class="main-content-container container-fluid px-4">
+  <!-- Page Header -->
+  <div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+      <span class="text-uppercase page-subtitle">Management</span>
+      <h3 class="page-title">View Employees</h3>
+    </div>
+  </div>
+  <!-- End Page Header -->
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card card-small mb-4">
+
+        <div class="card-header border-bottom">
+          <small>
+            <label class="sh-ent-lbl"><span>Show</span>
+              <select class="custom-select form-control-sm sh-ent" (change)="app.filterRange($event.target.value)">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              entries</label>
+          </small>
+        </div>
+        <br />
+
+        <div class="col-lg-12 offset-lg-0 mb-4">
+          <div class="input-group input-group-seamless">
+            <input type="text" class="form-control form-control-lg srh-bx" name="searchString" placeholder="Type to search..."
+              [(ngModel)]="searchString">
+            <span class="input-group-append">
+              <span class="input-group-text">
+                <i class="material-icons">search</i>
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <div class="card-body p-0 pb-3">
+
+          <div class="table-responsive">
+            <div class="text-center">
+              <app-loading *ngIf="isLoading"></app-loading>
+            </div>
+            <span *ngIf="!isLoading">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Role</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of emp.allEmpList | filter : 'name' : searchString | slice: 0: app.end; index as i">
+                    <td>{{i+1}}</td>
+                    <td>{{item.name}}
+                      <div>
+                        <small>Email: {{item.email}}</small>
+                      </div>
+                    </td>
+                    <td>{{item.departmentName}}</td>
+                    <td>{{item.role}}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </span>
+          </div>
+
+          <div class="text-center">
+            <p class="text-uppercase page-subtitle mb-4" *ngIf="emp.allEmpList.length == 0">
+              List is empty!
+            </p>
+          </div>
+
+        </div>
+
+        <div class="card-footer text-muted">
+          <small>{{app.end}} out of {{emp.allEmpList.length}}</small>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

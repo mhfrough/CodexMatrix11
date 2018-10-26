@@ -19,8 +19,8 @@ export class LoginComponent implements OnInit {
   isLoading: Boolean = false;
   authMsg: String = '';
 
-  constructor(private nav: NavigationService, private router: Router,
-    private _auth: AuthService, public fb: FormBuilder, private app: AppComponent) {
+  constructor(public nav: NavigationService, public router: Router,
+    public _auth: AuthService, public fb: FormBuilder, public app: AppComponent) {
     this.rForm = fb.group({
       'email': [null, Validators.compose([
         Validators.required,

@@ -42,12 +42,28 @@
 
       <div class="card card-small mb-4">
         <div class="card-header border-bottom">
-          <h6 class="m-0">Current Designation</h6>
+          <small>
+            <label class="sh-ent-lbl"><span>Show</span>
+              <select class="custom-select form-control-sm sh-ent" (change)="app.filterRange($event.target.value)">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              entries</label>
+          </small>
         </div>
         <br />
         <div class="col-lg-12 offset-lg-0 mb-4">
-          <input type="text" class="form-control form-control-lg srh-bx" name="searchString" placeholder="Type to search..."
-            [(ngModel)]="searchString">
+          <div class="input-group input-group-seamless">
+            <input type="text" class="form-control form-control-lg srh-bx" name="searchString" placeholder="Type to search..."
+              [(ngModel)]="searchString">
+            <span class="input-group-append">
+              <span class="input-group-text">
+                <i class="material-icons">search</i>
+              </span>
+            </span>
+          </div>
         </div>
         <div class="card-body p-0 pb-3">
 
@@ -66,7 +82,7 @@
                 </thead>
                 <tbody>
 
-                  <tr *ngFor="let item of _desig.desigList | filter : 'name' : searchString; index as i">
+                  <tr *ngFor="let item of desig.desigList | filter : 'name' : searchString | slice: 0: app.end; index as i">
                     <td>{{i+1}}</td>
                     <td>{{item.name}}</td>
                     <td>
@@ -88,12 +104,15 @@
           </div>
 
           <div class="text-center">
-            <span class="text-uppercase page-subtitle mb-4" *ngIf="!_desig.desigList?.length || !_desig.desigList === 0">
+            <p class="text-uppercase page-subtitle mb-4" *ngIf="desig.desigList.length == 0">
               List is empty!
-            </span>
+            </p>
           </div>
 
         </div>
+        <div class="card-footer text-muted">
+            <small>{{app.end}} out of {{desig.desigList.length}}</small>    
+          </div>
       </div>
 
     </div>

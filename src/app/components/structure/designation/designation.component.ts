@@ -23,9 +23,10 @@ export class DesignationComponent implements OnInit {
   desigName: String = '';
   button: String = 'Submit';
   isUpdate: boolean = false;
+  public searchString: string;
 
-  constructor(private _desig: DesigService, private fb: FormBuilder,
-    private app: AppComponent) {
+  constructor(public desig: DesigService, public fb: FormBuilder,
+    public app: AppComponent) {
     this.rForm = fb.group({
       'desigName': [null, Validators.compose([
         Validators.required,
@@ -37,12 +38,12 @@ export class DesignationComponent implements OnInit {
 
   ngOnInit() {
     this.getAllDesig();
-    console.log(this._desig.desigList)
+    this.app.reset();
   }
 
   getAllDesig() {
     this.isLoading = true;
-    this._desig.getDesig(localStorage.getItem('companyID'));
+    this.desig.getDesig(localStorage.getItem('companyID'));
     this.isLoading = false;
   }
 
@@ -55,7 +56,7 @@ export class DesignationComponent implements OnInit {
         name: post.desigName,
       }
 
-      this._desig.createDesig(this.desigReq).subscribe(res => {
+      this.desig.createDesig(this.desigReq).subscribe(res => {
         if (res.status == 1) {
           this.isLoading = false;
           console.log(res);
@@ -81,7 +82,7 @@ export class DesignationComponent implements OnInit {
         name: post.desigName,
       }
 
-      this._desig.updateDesig(this.desigPut).subscribe(res => {
+      this.desig.updateDesig(this.desigPut).subscribe(res => {
         if (res.status == 1) {
           this.isLoading = false;
           console.log(res);
@@ -103,8 +104,7 @@ export class DesignationComponent implements OnInit {
       });
     }
     this.rForm.reset();
-    this.app.button = 'submit';
-    this.app.action = 'Add';
+    this.app.reset();
   }
 
   onUpdate(id: String, name: String) {
@@ -120,7 +120,7 @@ export class DesignationComponent implements OnInit {
     this.desigDel = {
       designationId: id
     }
-    this._desig.deleteDesig(this.desigDel).subscribe(res => {
+    this.desig.deleteDesig(this.desigDel).subscribe(res => {
       this.isLoading = false;
       // Department Deleted
 
@@ -130,6 +130,8 @@ export class DesignationComponent implements OnInit {
         timeout: 5000
       });
       this.getAllDesig();
+      this.rForm.reset();
+      this.app.reset();
     })
   }
 
